@@ -61,4 +61,4 @@ def get_blueprint(nama):
 
 app = get_blueprint(__name__)
 if __name__=='__main__':
-    app.run(host='0.0.0.0', port=32000, debug=True)
+    app.run(host='0.0.0.0', port=32111, debug=True)

@@ -4,4 +4,6 @@ buatlah dulu lingkungan virtual environment
 2. source venv/bin/activate
 3. anda sudah berada dalam linkungan virtualenv
 4. jalankan instalasi modul pip install -r requirements
+5. jalankan dengan python Service.py
+6. lihatlah file testing.txt untuk testing
 

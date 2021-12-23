@@ -63,9 +63,9 @@
                           $$('tabelcoba').loadNext(-1,0)
                           return false;
                       }
-                      data = hasil.data;
+                      data = hasil.id;
                       items = $$('tabelcoba').getItem(id)
-                      items.id = data.id;
+                      items.id = data;
                       webix.alert('data '+items.id+' berhasil ditambah')
                       $$('tabelcoba').refresh()
                   })

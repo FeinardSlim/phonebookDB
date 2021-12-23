@@ -67,7 +67,6 @@ class PhoneBook:
                 "data": buffer
             }
 
-            return json.dumps(data)
         except:
             return dict(status='ERR',msg='Error')
 
@@ -119,7 +118,6 @@ class PhoneBook:
                 "msg": buffer
             }
 
-            return json.dumps(data)
         except:
             return dict(status='ERR',msg='Tidak Ketemu')
 

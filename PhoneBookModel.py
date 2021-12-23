@@ -66,7 +66,7 @@ class PhoneBook:
                 "status": "OK",
                 "data": buffer
             }
-
+            return data;
         except:
             return dict(status='ERR',msg='Error')
 
@@ -117,7 +117,7 @@ class PhoneBook:
                 "status": "OK",
                 "msg": buffer
             }
-
+            return data
         except:
             return dict(status='ERR',msg='Tidak Ketemu')
 

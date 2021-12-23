@@ -1,3 +1,4 @@
 flask
 flask_restful
 uuid
+mysql_connector_python

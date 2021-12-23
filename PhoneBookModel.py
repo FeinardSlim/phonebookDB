@@ -1,3 +1,4 @@
+import time
 import uuid
 import warnings
 
@@ -85,6 +86,15 @@ class PhoneBook:
             return dict(status='OK',msg=data)
         except:
             return dict(status='ERR',msg='Tidak Ketemu')
+
+    def measure(self,id):
+        time_start = time.time()
+        try:
+            query = "select * from phonebook"
+            data = self.query(query)
+            return dict(status='OK',msg=time.time() - time_start)
+        except:
+            return  dict(status='ERR',msg='Terdapat permaslaahan didalam query/perhitungan')
 
 if __name__=='__main__':
     pd = PhoneBook()

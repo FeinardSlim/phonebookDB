@@ -2,4 +2,5 @@ flask
 flask_restful
 uuid
 requests
+gunicorn
 mysql_connector_python

@@ -36,7 +36,7 @@ class PhoneBook:
     def query(self,query):
         self.connections()
         self.cursor.execute(query)
-        return  self.cursor.fetchall()
+        return self.cursor.fetchall()
 
     def commit(self,query):
         self.connections()
@@ -87,12 +87,12 @@ class PhoneBook:
         except:
             return dict(status='ERR',msg='Tidak Ketemu')
 
-    def measure(self,id):
-        time_start = time.time()
+    def measure(self):
+        time_start = time.time()*1000.0
         try:
             query = "select * from phonebook"
-            data = self.query(query)
-            return dict(status='OK',msg=time.time() - time_start)
+            self.query(query)
+            return dict(status='OK',msg=time.time()*1000.0 - time_start)
         except:
             return  dict(status='ERR',msg='Terdapat permaslaahan didalam query/perhitungan')
 
@@ -114,5 +114,6 @@ if __name__=='__main__':
 #     print(pd.delete('204ee471-63cc-11ec-906f-c0b6f9cbf346'))
 #
 #     print(pd.list())
+    print(pd.measure())
 
 

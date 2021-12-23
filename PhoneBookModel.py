@@ -90,9 +90,9 @@ class PhoneBook:
         except:
             return dict(status='ERR',msg='Tidak bisa Delete')
 
-    def update(self,info):
+    def update(self,id,info):
         try:
-            query = "update phonebook set nama = '%s', alamat = '%s', notelp = '%s' where id = '%s'"%(info['nama'],info['alamat'],info['notelp'],info['id'],)
+            query = "update phonebook set nama = '%s', alamat = '%s', notelp = '%s' where id = '%s'"%(info['nama'],info['alamat'],info['notelp'],id)
             self.commit(query)
             return dict(status='OK',msg='{} updated' . format(id), id=id)
         except:

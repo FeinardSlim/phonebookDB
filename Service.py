@@ -37,7 +37,8 @@ class PhoneBookAPI(Resource):
             info = request.get_json()
         except:
             info = dict()
-        s = self.phonebook.update(info)
+
+        s = self.phonebook.update(id,info)
         return jsonify(s)
     def delete(self,id):
         s = self.phonebook.delete(id)

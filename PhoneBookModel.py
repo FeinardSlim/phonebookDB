@@ -72,9 +72,9 @@ class PhoneBook:
         except:
             return dict(status='ERR',msg='Tidak bisa Delete')
 
-    def update(self,id,info):
+    def update(self,info):
         try:
-            query = "update phonebook set nama = '%s', alamat = '%s', notelp = '%s' where id = '%s'"%(info['nama'],info['alamat'],info['notelp'],id,)
+            query = "update phonebook set nama = '%s', alamat = '%s', notelp = '%s' where id = '%s'"%(info['nama'],info['alamat'],info['notelp'],info['id'],)
             self.commit(query)
             return dict(status='OK',msg='{} updated' . format(id), id=id)
         except:
@@ -113,7 +113,8 @@ if __name__=='__main__':
 # #    ------------ Delete
 #     print(pd.delete('204ee471-63cc-11ec-906f-c0b6f9cbf346'))
 #
-#     print(pd.list())
+    print(pd.list())
     print(pd.measure())
+    print(pd.update("21b8ccaa-63cc-11ec-9404-c0b6f9cbf346",dict(nama='test',alamat='test',notelp='test')))
 
 

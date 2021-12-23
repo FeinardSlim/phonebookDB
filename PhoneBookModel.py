@@ -48,7 +48,15 @@ class PhoneBook:
         try:
             query = "select * from phonebook"
             data = self.query(query)
-            return dict(status='OK',data=data)
+            buffer = []
+            for i in data:
+                buffer.append({
+                    'id': i[0],
+                    'nama': i[1],
+                    'alamat': i[2],
+                    'notelp': i[3]
+                })
+            return dict(status='OK',data=buffer)
         except:
             return dict(status='ERR',msg='Error')
 
@@ -83,7 +91,15 @@ class PhoneBook:
         try:
             query = "select * from phonebook where id = '%s'"%(id,)
             data = self.query(query)
-            return dict(status='OK',msg=data)
+            buffer = []
+            for i in data:
+                buffer.append({
+                    'id': i[0],
+                    'nama': i[1],
+                    'alamat': i[2],
+                    'notelp': i[3]
+                })
+            return dict(status='OK',msg=buffer)
         except:
             return dict(status='ERR',msg='Tidak Ketemu')
 
@@ -114,7 +130,7 @@ if __name__=='__main__':
 #     print(pd.delete('204ee471-63cc-11ec-906f-c0b6f9cbf346'))
 #
     print(pd.list())
-    print(pd.measure())
-    print(pd.update("21b8ccaa-63cc-11ec-9404-c0b6f9cbf346",dict(nama='test',alamat='test',notelp='test')))
+    # print(pd.measure())
+    # print(pd.update("21b8ccaa-63cc-11ec-9404-c0b6f9cbf346",dict(nama='test',alamat='test',notelp='test')))
 
 

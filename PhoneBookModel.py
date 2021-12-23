@@ -1,7 +1,8 @@
 import uuid
+import warnings
+
 import mysql.connector
 
-config = dict()
 config = {
     'user': 'root',
     'password': 'root',
@@ -11,11 +12,10 @@ config = {
 
 class PhoneBook:
     def __init__(self):
-        self.conn = mysql.connector.connect(config)
+        self.conn = mysql.connector.connect(user='root',host='34.68.0.204',database='phonebook')
         self.cursor = self.conn.cursor()
-        self.namafile = 'phonebook.db'
         self.cursor.execute(
-            " CREATE TABLE IF NOT EXISTS `phonebook` ("
+            "CREATE TABLE IF NOT EXISTS `phonebook` ("
               "`id` varchar(50) NOT NULL,"
               "`nama` varchar(50) NOT NULL,"
               "`alamat` text NOT NULL,"
@@ -26,19 +26,27 @@ class PhoneBook:
             ") ENGINE=InnoDB DEFAULT CHARSET=latin1;"
         )
         self.conn.commit()
+        self.conn.close()
+
+    def connections(self):
+        self.conn = mysql.connector.connect(user='root', host='34.68.0.204', database='phonebook')
+        self.cursor = self.conn.cursor()
+
+    def query(self,query):
+        self.connections()
+        self.cursor.execute(query)
+        return  self.cursor.fetchall()
 
     def commit(self,query):
+        self.connections()
         self.cursor.execute(query)
-        return self.conn.commit()
+        self.conn.commit()
+        self.conn.close()
 
     def list(self):
-        data = []
         try:
             query = "select * from phonebook"
-            self.cursor.execute(query)
-            data = self.cursor.fetchall()
-            # for i in self.db.keys():
-            #     data.append(dict(id=i,data=self.db[i]))
+            data = self.query(query)
             return dict(status='OK',data=data)
         except:
             return dict(status='ERR',msg='Error')
@@ -47,55 +55,54 @@ class PhoneBook:
         try:
             id = str(uuid.uuid1())
             # self.db[id] = info
-            query = "insert into phonebook (id,nama,alamat,notelp) values (%s,%s,%s,%s)",(id,info['nama'],info['alamat'],info['notelp'],)
-            if self.commit(query):
-                return dict(status='OK',id=id)
-            else:
-                raise ValueError('query gagal')
-        except:
+            query = "insert into phonebook (id,nama,alamat,notelp) values ('%s','%s','%s','%s')"%(id,info['nama'],info['alamat'],info['notelp'],)
+            print(query)
+            self.commit(query)
+            return dict(status='OK', id=id)
+        except Exception as e:
+            print(e)
             return dict(status='ERR',msg='Tidak bisa Create')
 
     def delete(self,id):
         try:
-            query = "delete from phonebook where id = %s",(id)
-            if self.commit(query):
-                return dict(status='OK',msg='{} deleted' . format(id), id=id)
-            else:
-                raise ValueError('query gagal')
+            query = "delete from phonebook where id = '%s'"%(id)
+            self.commit(query)
+            return dict(status='OK',msg='{} deleted' . format(id), id=id)
         except:
             return dict(status='ERR',msg='Tidak bisa Delete')
 
     def update(self,id,info):
         try:
-            query = 'update phonebook set nama = %s, alamat = %s, notelp = %s where id = %s',(info['nama'],info['alamat'],info['notelp'],id,)
-            if self.commit(query):
-                return dict(status='OK',msg='{} updated' . format(id), id=id)
-            else:
-                raise ValueError("query gagal")
+            query = "update phonebook set nama = '%s', alamat = '%s', notelp = '%s' where id = '%s'"%(info['nama'],info['alamat'],info['notelp'],id,)
+            self.commit(query)
+            return dict(status='OK',msg='{} updated' . format(id), id=id)
         except:
             return dict(status='ERR',msg='Tidak bisa Update')
     def read(self,id):
         try:
-            query = "select * from phonebook where id = %s",(id,)
-            self.cursor.execute(query)
-            data = self.cursor.fetchall()
+            query = "select * from phonebook where id = '%s'"%(id,)
+            data = self.query(query)
             return dict(status='OK',msg=data)
         except:
             return dict(status='ERR',msg='Tidak Ketemu')
 
 if __name__=='__main__':
     pd = PhoneBook()
-#    ----------- create
-#    result = pd.create(dict(nama='royyana',alamat='ketintang',notelp='6212345'))
-#    print(result)
-#    result = pd.create(dict(nama='ibrahim',alamat='ketintang',notelp='6212341'))
-#    print(result)
-#    result = pd.create(dict(nama='Ananda', alamat='Dinoyo Sekolahan', notelp='6212345'))
-#    print(result)
-#    ------------ list
-    print(pd.list())
-#    ------------ info
-#    print(pd.read('c516b780-2fa2-11eb-bf35-7fc0bd24c845'))
-
+# #    ----------- create
+#     # result = pd.create(dict(nama='royyana',alamat='ketintang',notelp='6212345'))
+#     # print(result)
+#     # result = pd.create(dict(nama='ibrahim',alamat='ketintang',notelp='6212341'))
+#     # print(result)
+#     # result = pd.create(dict(nama='Ananda', alamat='Dinoyo Sekolahan', notelp='6212345'))
+#     # print(result)
+# #    ------------ list
+#     print(pd.list())
+# #    ------------ info
+#     print(pd.read('204ee471-63cc-11ec-906f-c0b6f9cbf346'))
+#
+# #    ------------ Delete
+#     print(pd.delete('204ee471-63cc-11ec-906f-c0b6f9cbf346'))
+#
+#     print(pd.list())
 
 

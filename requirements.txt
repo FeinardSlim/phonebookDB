@@ -2,3 +2,4 @@ flask
 flask_restful
 uuid
 requests
+mysql_connector_python

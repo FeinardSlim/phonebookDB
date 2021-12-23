@@ -1,3 +1,4 @@
+import json
 import time
 import uuid
 import warnings
@@ -47,16 +48,26 @@ class PhoneBook:
     def list(self):
         try:
             query = "select * from phonebook"
-            data = self.query(query)
+            hasil_query = self.query(query)
             buffer = []
-            for i in data:
-                buffer.append({
-                    'id': i[0],
-                    'nama': i[1],
-                    'alamat': i[2],
-                    'notelp': i[3]
-                })
-            return dict(status='OK',data=buffer)
+            for i in hasil_query:
+                temp = {
+                    "data": {
+                        "nama": i[1],
+                        "alamat": i[2],
+                        "notelp": i[3]
+                    },
+                    "id": i[0]
+                }
+                buffer.append(temp)
+
+
+            data = {
+                "status": "OK",
+                "data": buffer
+            }
+
+            return json.dumps(data)
         except:
             return dict(status='ERR',msg='Error')
 
@@ -90,16 +101,25 @@ class PhoneBook:
     def read(self,id):
         try:
             query = "select * from phonebook where id = '%s'"%(id,)
-            data = self.query(query)
+            hasil_query = self.query(query)
             buffer = []
-            for i in data:
-                buffer.append({
-                    'id': i[0],
-                    'nama': i[1],
-                    'alamat': i[2],
-                    'notelp': i[3]
-                })
-            return dict(status='OK',msg=buffer)
+            for i in hasil_query:
+                temp = {
+                    "data": {
+                        "nama": i[1],
+                        "alamat": i[2],
+                        "notelp": i[3]
+                    },
+                    "id": i[0]
+                }
+                buffer.append(temp)
+
+            data = {
+                "status": "OK",
+                "msg": buffer
+            }
+
+            return json.dumps(data)
         except:
             return dict(status='ERR',msg='Tidak Ketemu')
 

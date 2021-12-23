@@ -1,0 +1,20 @@
+dalam case ini akan digunakan webix, webix adalah cross browser JS framework yang cukup
+lengkap dalam UI dan fungsi-fungsi support yang lain dalam membuat aplikasi berbasis web
+check :
+- https://docs.webix.com/desktop__getting_started.html
+- https://docs.webix.com/desktop__basic_tasks.html
+- https://docs.webix.com/samples/
+
+khusus untuk REST, webix juga menyediakan support dalam bentuk ajax
+- https://docs.webix.com/helpers__ajax_operations.html
+
+
+dalam case ini , file akan diletakkan dalam index.html dan akan dijalankan diatas builtin python web
+server
+
+* jalankan python webserver di port 9999 dengan current directory sebagai root nya
+python3 -m http.server -b 0.0.0.0 9999 -d .
+
+* akseslah dengan browser ke http://localhost:9999
+
+telah disediakan dockerfile agar webserver dapat di jalankan dalam container, 

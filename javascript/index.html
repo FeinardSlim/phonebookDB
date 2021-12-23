@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <link rel="stylesheet" href="//cdn.webix.com/edge/webix.css" type="text/css">
+  <script src="//cdn.webix.com/edge/webix.js" type="text/javascript"></script>
+ </head>
+ <body>
+   <script type="text/javascript" charset="utf-8">
+     /* app code */
+     /*URL PATH ke service kita */
+    var URLPATH='http://34.92.4.172:80/phones'
+
+    var grid = {
+      id : 'tabelcoba',
+      view:"datatable",
+      columns:[
+        { id:"id",	                    header:"ID",            width:150},
+        { id:"nama",	editor:"text",  header:"Nama",	        width:200},
+        { id:"alamat",	editor:"text",  header:"Alamat" , 	    width:80},
+        { id:"notelp",	editor:"text",  header:"Notelp", 		width:100}
+      ],
+      autoheight:true,
+      autowidth:true,
+      datatype:'json',
+      select:"row", editable:true, editaction:"dblclick",
+      url: function(details){
+          //menggunakan GET
+          return webix.ajax(URLPATH).then(function(data){
+              var d = data.json().data
+              console.log(d)
+              var new_data = []
+              for (key in d) {
+                  rec = d[key]
+                  rec['nama']='kosong'
+                  rec['alamat']='kosong'
+                  rec['notelp']='kosong'
+
+                  if (d[key]['data']['nama'])
+                    rec['nama']=d[key]['data']['nama']
+                  if (d[key]['data']['alamat'])
+                    rec['alamat']=d[key]['data']['alamat']
+                  if (d[key]['data']['notelp'])
+                    rec['notelp']=d[key]['data']['notelp']
+                  delete rec['data']
+                  new_data.push(rec)
+              }
+              return new_data
+          })
+      },
+      save: function(id,operation, updatedata){
+          if (operation=="insert"){
+              console.log(updatedata)
+
+              return webix.ajax()
+                  .headers({"Content-type":"application/json"})
+                  .post(URLPATH,JSON.stringify(updatedata)).then(function(data){
+                      hasil = data.json()
+                      console.log(hasil)
+                      if (hasil.status!='OK'){
+                          webix.alert('Gagal')
+                          $$('tabelcoba').loadNext(-1,0)
+                          return false;
+                      }
+                      data = hasil.data;
+                      items = $$('tabelcoba').getItem(id)
+                      items.id = data.id;
+                      webix.alert('data '+items.id+' berhasil ditambah')
+                      $$('tabelcoba').refresh()
+                  })
+
+          }
+          if (operation=='delete'){
+              console.log(updatedata)
+              return webix.ajax()
+                 .del(URLPATH+'/'+updatedata.id)
+                 .then(function(data){
+                     hasil = data.json()
+                     console.log(hasil)
+                     webix.alert(hasil.msg)
+                 })
+          }
+
+          if (operation=='update'){
+              console.log(updatedata)
+              return webix.ajax()
+                 .headers({"Content-type":"application/json"})
+                 .put(URLPATH+'/'+updatedata.id,JSON.stringify(updatedata))
+                 .then(function(data){
+                     hasil = data.json()
+                     console.log(hasil)
+                     webix.alert(hasil.msg)
+                 })
+
+          }
+      }
+    }
+
+    var buttons = {
+        view: 'toolbar',
+        elements: [
+            { view: 'button', value:'tambah', click:function(){
+                    $$('tabelcoba').add({nama:'kosong',alamat:'kosong',notelp:'kosong'})
+              }
+            },
+            {
+                view: 'button', value:'hapus', click: function(){
+                    var bb = $$('tabelcoba')
+                    if (bb.getSelectedId()){
+                        bb.remove(bb.getSelectedId())
+                        if (bb.getFirstId())
+                            bb.select(bb.getFirstId())
+                    }
+                }
+            }
+        ]
+
+    }
+
+     webix.ui({
+         rows:[
+             {view: 'template', type:'header', template: 'Coba PhonebookDB API'},
+             buttons,
+             grid
+         ]
+     })
+   </script>
+ </body>
+</html>

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: phonebook-api
+    app: phonebook-api-1
   managedFields:
     - apiVersion: apps/v1
       fieldsType: FieldsV1
@@ -31,6 +31,7 @@ metadata:
               'f:containers':
                 'k:{"name":"github-feinardslim-phonebookdb-1"}':
                   .: {}
+                  'f:image': {}
                   'f:imagePullPolicy': {}
                   'f:name': {}
                   'f:resources': {}
@@ -43,32 +44,7 @@ metadata:
               'f:terminationGracePeriodSeconds': {}
       manager: GoogleCloudConsole
       operation: Update
-      time: '2021-12-24T17:38:38Z'
-    - apiVersion: apps/v1
-      fieldsType: FieldsV1
-      fieldsV1:
-        'f:metadata':
-          'f:annotations':
-            'f:gcb-build-id': {}
-            'f:gcb-trigger-id': {}
-            'f:kubectl.kubernetes.io/last-applied-configuration': {}
-          'f:labels':
-            'f:app.kubernetes.io/version': {}
-        'f:spec':
-          'f:template':
-            'f:metadata':
-              'f:annotations':
-                'f:gcb-build-id': {}
-                'f:gcb-trigger-id': {}
-              'f:labels':
-                'f:app.kubernetes.io/version': {}
-            'f:spec':
-              'f:containers':
-                'k:{"name":"github-feinardslim-phonebookdb-1"}':
-                  'f:image': {}
-      manager: kubectl-client-side-apply
-      operation: Update
-      time: '2021-12-24T18:09:41Z'
+      time: '2021-12-24T21:50:26Z'
     - apiVersion: apps/v1
       fieldsType: FieldsV1
       fieldsV1:
@@ -102,14 +78,14 @@ metadata:
           'f:updatedReplicas': {}
       manager: kube-controller-manager
       operation: Update
-      time: '2021-12-24T18:10:04Z'
-  name: phonebook-api
+      time: '2021-12-24T21:50:38Z'
+  name: phonebook-api-1
   namespace: default
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: phonebook-api
+      app: phonebook-api-1
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -118,7 +94,7 @@ spec:
   template:
     metadata:
       labels:
-        app: phonebook-api
+        app: phonebook-api-1
     spec:
       containers:
         - image: gcr.io/phonebookdb/github_feinardslim_phonebookdb
@@ -129,7 +105,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   labels:
-    app: phonebook-api
+    app: phonebook-api-1
   managedFields:
     - apiVersion: autoscaling/v2beta1
       fieldsType: FieldsV1
@@ -148,7 +124,7 @@ metadata:
             'f:name': {}
       manager: GoogleCloudConsole
       operation: Update
-      time: '2021-12-24T17:38:38Z'
+      time: '2021-12-24T21:50:26Z'
     - apiVersion: autoscaling/v1
       fieldsType: FieldsV1
       fieldsV1:
@@ -162,21 +138,8 @@ metadata:
           'f:desiredReplicas': {}
       manager: vpa-recommender
       operation: Update
-      time: '2021-12-24T17:38:55Z'
-    - apiVersion: autoscaling/v2beta1
-      fieldsType: FieldsV1
-      fieldsV1:
-        'f:metadata':
-          'f:annotations':
-            'f:gcb-build-id': {}
-            'f:gcb-trigger-id': {}
-            'f:kubectl.kubernetes.io/last-applied-configuration': {}
-          'f:labels':
-            'f:app.kubernetes.io/version': {}
-      manager: kubectl-client-side-apply
-      operation: Update
-      time: '2021-12-24T18:09:41Z'
-  name: phonebook-api-hpa-eqet
+      time: '2021-12-24T21:50:41Z'
+  name: phonebook-api-1-hpa-8rsu
   namespace: default
 spec:
   maxReplicas: 5
@@ -189,7 +152,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: phonebook-api
+    name: phonebook-api-1
 ---
 apiVersion: v1
 kind: Service
@@ -199,7 +162,7 @@ metadata:
   finalizers:
     - service.kubernetes.io/load-balancer-cleanup
   labels:
-    app: phonebook-api
+    app: phonebook-api-1
   managedFields:
     - apiVersion: v1
       fieldsType: FieldsV1
@@ -208,9 +171,6 @@ metadata:
           'f:labels':
             .: {}
             'f:app': {}
-            'f:app.kubernetes.io/managed-by': {}
-            'f:app.kubernetes.io/name': {}
-            'f:app.kubernetes.io/version': {}
         'f:spec':
           'f:externalTrafficPolicy': {}
           'f:ports':
@@ -227,7 +187,7 @@ metadata:
           'f:type': {}
       manager: GoogleCloudConsole
       operation: Update
-      time: '2021-12-24T18:14:46Z'
+      time: '2021-12-24T21:52:35Z'
     - apiVersion: v1
       fieldsType: FieldsV1
       fieldsV1:
@@ -240,23 +200,23 @@ metadata:
             'f:ingress': {}
       manager: kube-controller-manager
       operation: Update
-      time: '2021-12-24T18:15:16Z'
-  name: phonebook-api-service
+      time: '2021-12-24T21:53:07Z'
+  name: phonebook-api-1-service
   namespace: default
 spec:
-  clusterIP: 10.44.3.55
+  clusterIP: 10.44.8.116
   clusterIPs:
-    - 10.44.3.55
+    - 10.44.8.116
   externalTrafficPolicy: Cluster
   ipFamilies:
     - IPv4
   ipFamilyPolicy: SingleStack
   ports:
-    - nodePort: 30450
+    - nodePort: 31211
       port: 80
       protocol: TCP
       targetPort: 32111
   selector:
-    app: phonebook-api
+    app: phonebook-api-1
   sessionAffinity: None
   type: LoadBalancer

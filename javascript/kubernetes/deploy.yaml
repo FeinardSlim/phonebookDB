@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: phonebook-web
+    app: phonebook-web-1
   managedFields:
     - apiVersion: apps/v1
       fieldsType: FieldsV1
@@ -44,7 +44,7 @@ metadata:
               'f:terminationGracePeriodSeconds': {}
       manager: GoogleCloudConsole
       operation: Update
-      time: '2021-12-24T17:43:47Z'
+      time: '2021-12-24T21:50:26Z'
     - apiVersion: apps/v1
       fieldsType: FieldsV1
       fieldsV1:
@@ -78,14 +78,14 @@ metadata:
           'f:updatedReplicas': {}
       manager: kube-controller-manager
       operation: Update
-      time: '2021-12-24T17:43:50Z'
-  name: phonebook-web
+      time: '2021-12-24T21:50:38Z'
+  name: phonebook-web-1
   namespace: default
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: phonebook-web
+      app: phonebook-web-1
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -94,7 +94,7 @@ spec:
   template:
     metadata:
       labels:
-        app: phonebook-web
+        app: phonebook-web-1
     spec:
       containers:
         - image: gcr.io/phonebookdb/github_feinardslim_phonebookdb
@@ -105,7 +105,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   labels:
-    app: phonebook-web
+    app: phonebook-web-1
   managedFields:
     - apiVersion: autoscaling/v2beta1
       fieldsType: FieldsV1
@@ -124,7 +124,7 @@ metadata:
             'f:name': {}
       manager: GoogleCloudConsole
       operation: Update
-      time: '2021-12-24T17:43:47Z'
+      time: '2021-12-24T21:50:26Z'
     - apiVersion: autoscaling/v1
       fieldsType: FieldsV1
       fieldsV1:
@@ -138,8 +138,8 @@ metadata:
           'f:desiredReplicas': {}
       manager: vpa-recommender
       operation: Update
-      time: '2021-12-24T17:44:02Z'
-  name: phonebook-web-hpa-o68u
+      time: '2021-12-24T21:50:41Z'
+  name: phonebook-web-1-hpa-tnvm
   namespace: default
 spec:
   maxReplicas: 5
@@ -152,7 +152,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: phonebook-web
+    name: phonebook-web-1
 ---
 apiVersion: v1
 kind: Service
@@ -162,7 +162,7 @@ metadata:
   finalizers:
     - service.kubernetes.io/load-balancer-cleanup
   labels:
-    app: phonebook-web
+    app: phonebook-web-1
   managedFields:
     - apiVersion: v1
       fieldsType: FieldsV1
@@ -187,7 +187,7 @@ metadata:
           'f:type': {}
       manager: GoogleCloudConsole
       operation: Update
-      time: '2021-12-24T17:57:09Z'
+      time: '2021-12-24T21:55:30Z'
     - apiVersion: v1
       fieldsType: FieldsV1
       fieldsV1:
@@ -200,23 +200,23 @@ metadata:
             'f:ingress': {}
       manager: kube-controller-manager
       operation: Update
-      time: '2021-12-24T17:57:46Z'
-  name: phonebook-web-service
+      time: '2021-12-24T21:56:01Z'
+  name: phonebook-web-1-service
   namespace: default
 spec:
-  clusterIP: 10.44.1.252
+  clusterIP: 10.44.2.203
   clusterIPs:
-    - 10.44.1.252
+    - 10.44.2.203
   externalTrafficPolicy: Cluster
   ipFamilies:
     - IPv4
   ipFamilyPolicy: SingleStack
   ports:
-    - nodePort: 32485
+    - nodePort: 31532
       port: 80
       protocol: TCP
       targetPort: 9999
   selector:
-    app: phonebook-web
+    app: phonebook-web-1
   sessionAffinity: None
   type: LoadBalancer
